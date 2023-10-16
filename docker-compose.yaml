@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: dt_app
+    image: dt-app:latest
+    networks:
+      - dt_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: dt_nginx
+    image: dt-nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    networks:
+      - dt_network
+
+networks:
+  dt_network:
+    driver: bridge
